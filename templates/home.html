@@ -6,14 +6,29 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <title>Bootstrap demo</title>
 </head>
-<body>
-<h1>'Welcome to Horizons Logger! We are currently under construction! Thank you for your patience'</h1>
+<body class="container">
+<h1>Welcome to Horizons Logger!</h1>
 <p>List of all logs</p>
-<ul>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Logged Time</th>
+        <th>Machine</th>
+        <th>Machine State</th>
+        <th>Message</th>
+    </tr>
+    </thead>
+    <tbody>
     {%- for line in logs %}
-    <li>{{line[0]}}: {{line[1]}}: {{line[2]}}: {{line[3]}}</li>
+    <tr>
+        <td>{{line[0]}}</td>
+        <td>{{line[1]}}</td>
+        <td>{{line[2]}}</td>
+        <td>{{line[3]}}</td>
+    </tr>
     {% endfor %}
-</ul>
+    </tbody>
+</table>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
 </body>
 </html>
