@@ -17,6 +17,9 @@ class Repo:
         self.repo.columns = [col if not pd.isna(col) else 'YourNewColumnName' for col in self.repo.columns]
         self.repo = self.repo.loc[:, ~self.repo.columns.str.contains('^Unnamed')]
 
+        # sort csv by datetime, logs could have come in at differing times, so it needs to be sorted
+        self.repo.sort_values(by=['logged_time'])
+
     def get_all(self):
         json_logs = self.repo.to_dict(orient='records')
         return json_logs
@@ -24,16 +27,19 @@ class Repo:
     def set_log(self, log: MachineLog):
         length = len(self.repo)
         self.repo.loc[len(self.repo)] = log.model_dump()
-        self.repo.to_csv(self.file_path, mode='w')
+        self.save_cvs(self.repo)
         return length < len(self.repo)
 
     # As logs aren't usually deleted, and this function is for non-log data I am not deleting it for future use
     def delete_log(self, log_index):
         length = len(self.repo)
         self.repo.drop(log_index, inplace=True)
-        self.repo.to_csv(self.file_path, mode='w')
+        self.save_cvs(self.repo)
         return length > len(self.repo)
 
     def get_log_list(self):
-        self.repo.sort_values(by=['logged_time'])
         return self.repo.values.tolist()
+
+    def save_cvs(self, csv):
+        csv.to_csv(self.file_path, mode='w')
+
