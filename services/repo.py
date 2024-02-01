@@ -35,4 +35,5 @@ class Repo:
         return length > len(self.repo)
 
     def get_log_list(self):
+        self.repo.sort_values(by=['logged_time'])
         return self.repo.values.tolist()
